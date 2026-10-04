@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Expense Tracker</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="hero">
+    <div class="wrap hero-inner">
+      <div>
+        <h1>Expense Tracker</h1>
+        <p class="hero-label">Current balance</p>
+        <p class="hero-balance" id="balance">₹0.00</p>
+      </div>
+      <dl class="totals">
+        <div><dt>Total income</dt><dd class="pos" id="totalIncome">₹0.00</dd></div>
+        <div><dt>Total expenses</dt><dd class="neg" id="totalExpense">₹0.00</dd></div>
+      </dl>
+    </div>
+  </header>
+
+  <main class="wrap layout">
+    <section class="panel" aria-labelledby="formTitle">
+      <h2 id="formTitle">Add transaction</h2>
+      <form id="txForm" novalidate>
+        <fieldset class="seg">
+          <legend class="sr">Transaction type</legend>
+          <label><input type="radio" name="type" value="expense" checked><span>Expense</span></label>
+          <label><input type="radio" name="type" value="income"><span>Income</span></label>
+        </fieldset>
+
+        <div class="field">
+          <label for="amount">Amount (₹)</label>
+          <input id="amount" name="amount" type="number" inputmode="decimal" step="0.01" min="0" placeholder="0.00" aria-describedby="amountErr">
+          <p class="err" id="amountErr" role="alert"></p>
+        </div>
+
+        <div class="field">
+          <label for="category">Category</label>
+          <select id="category" name="category" aria-describedby="categoryErr"></select>
+          <p class="err" id="categoryErr" role="alert"></p>
+        </div>
+
+        <div class="field">
+          <label for="date">Date</label>
+          <input id="date" name="date" type="date" aria-describedby="dateErr">
+          <p class="err" id="dateErr" role="alert"></p>
+        </div>
+
+        <div class="field">
+          <label for="description">Description</label>
+          <input id="description" name="description" type="text" maxlength="80" placeholder="e.g. Lunch with team" aria-describedby="descriptionErr">
+          <p class="err" id="descriptionErr" role="alert"></p>
+        </div>
+
+        <div class="actions">
+          <button type="submit" class="btn primary" id="submitBtn">Add transaction</button>
+          <button type="button" class="btn" id="cancelBtn" hidden>Cancel edit</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="panel" aria-labelledby="listTitle">
+      <h2 id="listTitle">Transactions</h2>
+      <div class="filters">
+        <div class="field">
+          <label for="filterType">Type</label>
+          <select id="filterType">
+            <option value="all">All</option>
+            <option value="income">Income</option>
+            <option value="expense">Expense</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="filterCategory">Category</label>
+          <select id="filterCategory"></select>
+        </div>
+        <button type="button" class="btn" id="clearFilters">Clear filters</button>
+      </div>
+      <p class="count" id="count" aria-live="polite"></p>
+      <ul class="list" id="list"></ul>
+    </section>
+
+    <section class="panel wide" aria-labelledby="monthTitle">
+      <div class="month-head">
+        <h2 id="monthTitle">Monthly summary</h2>
+        <div class="field inline">
+          <label for="month">Month</label>
+          <input id="month" type="month">
+        </div>
+      </div>
+      <dl class="month-stats">
+        <div><dt>Income</dt><dd class="pos" id="mIncome">₹0.00</dd></div>
+        <div><dt>Expenses</dt><dd class="neg" id="mExpense">₹0.00</dd></div>
+        <div><dt>Saved</dt><dd id="mNet">₹0.00</dd></div>
+      </dl>
+      <h3>Spending by category</h3>
+      <div id="chart" class="chart"></div>
+    </section>
+  </main>
+
+  <dialog id="confirmDlg">
+    <form method="dialog">
+      <p id="confirmText">Delete this transaction?</p>
+      <div class="actions">
+        <button class="btn" value="cancel">Keep it</button>
+        <button class="btn danger" value="ok">Delete</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>
